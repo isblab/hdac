@@ -186,7 +186,7 @@ class Align_Paralogs():
 				# Consider either of HDAC1/HDAC2 XL and exclude the other.
 				# If exclude = False, consider both.
 				elif self.hdac in prot1 and self.exclude:
-					self.mapping["Protein1"].append( prot1 )
+					self.mapping["Protein1"].append( dom_prot1 )
 					self.mapping["Residue1"].append( self.data["Residue 1"][i] )			
 				else:
 					self.mapping["Protein1"].append( dom_prot1 )
@@ -196,7 +196,7 @@ class Align_Paralogs():
 				dom_prot2 = self.return_dominant_paralog( prot2 )
 
 				if prot2 in dom_prot2:
-					self.mapping["Protein2"].append( prot2 )
+					self.mapping["Protein2"].append( dom_prot2 )
 					self.mapping["Residue2"].append( self.data["Residue 2"][i] )
 				# Consider either of HDAC1/HDAC2 XL and exclude the other.
 				# If exclude = False, consider both.
@@ -215,3 +215,5 @@ if __name__ == "__main__":
 	Align_Paralogs("HDAC2", True, "HDAC2").forward()
 	print( "\nXL for HDAC1 and HDAC2 (with HDAC2 mapped to HDAC1)..." )
 	Align_Paralogs("HDAC", False, "HDAC1-2").forward()
+
+
