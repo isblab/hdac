@@ -1,0 +1,24 @@
+|molecule_name|color              |fasta_fn      |fasta_id       |pdb_fn                                |chain |residue_range|pdb_offset  |bead_size|em_residues_per_gaussian|rigid_body|super_rigid_body|chain_of_super_rigid_bodies|
+
+|SIN3A        |orange             |SIN3A.fasta   |SIN3A_Q96ST3   |SAP30_130-219-SIN3A_456-527.pdb       |B     |91,162       |365  	  |10       |0                       |1         |1               | |
+|SIN3A        |orange             |SIN3A.fasta   |SIN3A_Q96ST3   |BEADS                                 |      |528,603      |0   	  |30       |0                       |          |1               | |
+|SIN3A        |orange             |SIN3A.fasta   |SIN3A_Q96ST3   |SUDS3_205-228-SIN3A_604-728.pdb       |B     |25,149       |579 	  |10       |0                       |2         |1               | |
+|SIN3A        |orange             |SIN3A.fasta   |SIN3A_Q96ST3   |SIN3A_AF.pdb                          |A     |729,831      |0   	  |10       |0                       |3         |1               | |
+
+|HDAC1        |yellow             |HDAC1.fasta   |HDAC1_Q13547   |BEADS                                 |      |1,7          |0   	  |30       |0                       |          |2               | |
+|HDAC1        |yellow             |HDAC1.fasta   |HDAC1_Q13547   |HDAC1-MTA1_ext.pdb                    |B     |1008,1376    |-1000       |10       |0                       |4         |2               | |
+|HDAC1        |yellow             |HDAC1.fasta   |HDAC1_Q13547   |BEADS                                 |      |377,482      |0   	  |30       |0                       |          |2               | |
+
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |BEADS                                 |      |1,58         |0   	  |30       |0                       |          |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |SUDS3_AF.pdb                          |A     |59,87        |0   	  |10       |0                       |5         |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |SUDS3_88-172.pdb                      |A     |1,85         |87  	  |10       |0                       |6         |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |BEADS                                 |      |173,204      |0   	  |10       |0                       |          |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |SUDS3_205-228-SIN3A_604-728.pdb       |A     |1,24         |204 	  |10       |0                       |2         |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |BEADS                                 |      |229,252      |0   	  |30       |0                       |          |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |SUDS3_AF.pdb                          |A     |253,326      |0   	  |10       |0                       |7         |3               | |
+|SUDS3        |dark green         |SUDS3.fasta   |SUDS3_Q9H7L9   |BEADS                                 |      |327,328      |0   	  |30       |0                       |          |3               | |
+
+|SAP30        |red                |SAP30.fasta   |SAP30_O75446   |BEADS                                 |      |1,63         |0   	  |30       |0                       |          |4               | |
+|SAP30        |red                |SAP30.fasta   |SAP30_O75446   |2KDP_A.pdb                            |A     |64,129       |0   	  |10       |0                       |8         |4               | |
+|SAP30        |red                |SAP30.fasta   |SAP30_O75446   |SAP30_130-219-SIN3A_456-527.pdb       |A     |1,90         |129   	  |10       |0                       |1         |4               | |
+|SAP30        |red                |SAP30.fasta   |SAP30_O75446   |BEADS                                 |      |220,220      |0   	  |30       |0                       |          |4               | |
