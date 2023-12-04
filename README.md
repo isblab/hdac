@@ -25,7 +25,6 @@ These integrative structures will be deposited in the PDB-Dev database with acce
     ```
     python get_high_confidence_region_from_AF2.py af2_struct.cif af2_struct.json
     ```
-    Make a file `proteins_of_interest.txt` and use it to run:
 
 2. For the presence of multiple paralogs of a protein, XLs from all paralogs were mapped to the paralog with the highest number of XLs.  
    Following script generates the mapped XLs:
@@ -39,6 +38,7 @@ These integrative structures will be deposited in the PDB-Dev database with acce
    ./create_gmm.sh EM_map.mrc threshold
    ```
    Threshold can be obtained from the Validation section on [EMDB](https://www.ebi.ac.uk/emdb/) for the specific EM map.
+   The minimum number of Gaussians which yield a cross-correlation of >0.95 with the original EM map is used.
 
 
 ### Sampling
