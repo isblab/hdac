@@ -21,23 +21,24 @@ These integrative structures will be deposited in the PDB-Dev database with acce
 
 ## Protocol
 ### Preprocessing the crosslinks
-1. For crosslinks in sheetA of sheetA of `data/xlinks/original_suppmat_DataS3.xlsx`:  
+1. In case of strucrures predicted by AlphaFold2, only regions of high confidence (>70 pLDDT and <5 PAE) were used. Following scripts extracts regions of high confidence:  
     ```
-    python get_protein_uniprot_mapping.py -x /home/shreyas/Dropbox/washburn_wdr_spin/xls_sheet1.csv
+    python get_high_confidence_region_from_AF2.py af2_struct.cif af2_struct.json
     ```
     Make a file `proteins_of_interest.txt` and use it to run:
+
+2. For the presence of multiple paralogs of a protein, XLs from all paralogs were mapped to the paralog with the highest number of XLs.  
+   Following script generates the mapped XLs:
     ```
-    python get_protein_uniprot_mapping.py -x /home/shreyas/Dropbox/washburn_wdr_spin/xls_sheet1.csv -m mapping -p proteins_of_interest.txt
+    python paralog_alignment.py
     ```
-    Finally, to generate the input file for modeling, do:
-    ```
-    python xl_preprocessing.py ~/Dropbox/washburn_wdr_spin/xls_sheet1.csv uniprot_mapping.yaml
-    ```
-2. For crosslinks in sheetA of sheetA of `data/xlinks/original_suppmat_DataS3.xlsx`:  
-    Run the following command to generate the crosslinks input file for modeling:
-    ```
-    python xl_change_protnames_from_ncbi2name.py
-    ```
+
+3. EM maps, where available, were converted to Gaussian Mixture Models (GMM) which were used as input for the modeling.
+   Following script generates GMMs for the input EM map:
+   ```
+   ./create_gmm.sh EM_map.mrc threshold
+   ```
+   Threshold can be obtained from the Validation section on [EMDB](https://www.ebi.ac.uk/emdb/) for the specific EM map.
 
 
 ### Sampling
