@@ -22,20 +22,20 @@ prots = [
 
 # Set visualization thresholds
 threshold = {
-        'RCOR1_Nterm': 0.015,             # 15.6%
-        'RCOR1_ELM-SANT1': 0.05,            # 16%
-        'RCOR1_240-310': 0.07,              # 12.4%
-        'RCOR1_LINKER': 0.0382,             # 10%
-        'RCOR1_SANT2': 0.0446,              # 10%
-        'RCOR1_Cterm': 0.05,                # 15%
-        'KDM1A_1-170': 0.05,                # 10%
-        'KDM1A_SWIRM': 0.0668,              # 10%
-        'KDM1A_AOD1': 0.0549,               # 10%
-        'KDM1A_TOWER': 0.049,               # 10%
-        'KDM1A_AOD2': 0.0726,               # 10%
-        'KDM1A_Cterm': 0.025,               # 16%
-        'HDAC1_1-376': 0.1,                 # 12.3%
-        'HDAC1_C-term_377-482': 0.02  }     # 15%
+        'RCOR1_Nterm': 0.0295,            # 10%
+        'RCOR1_ELM-SANT1': 0.0646,        # 10%
+        'RCOR1_240-310': 0.0991,          # 10%
+        'RCOR1_LINKER': 0.0517,           # 10%
+        'RCOR1_SANT2': 0.0656,            # 10%
+        'RCOR1_Cterm': 0.0653,            # 15%
+        'KDM1A_1-170': 0.0795,            # 10%
+        'KDM1A_SWIRM': 0.0755,            # 10%
+        'KDM1A_AOD1': 0.0548,             # 10%
+        'KDM1A_TOWER': 0.0628,            # 10%
+        'KDM1A_AOD2': 0.0812,             # 10%
+        'KDM1A_Cterm': 0.0234,            # 10%
+        'HDAC1_1-376': 0.0835,            # 10%
+        'HDAC1_C-term_377-482': 0.0383  } # 10%
 
 # Color of each protein/domain
 col = {

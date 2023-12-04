@@ -22,7 +22,7 @@ import subprocess
 imp_path = "/home/kartik/imp-clean/build/setup_environment.sh"
 modeling_dir_path = "../modeling/"
 output_dir = "Output_"
-density_file = "./density_Sin3A_hdac1.txt"
+density_file = "./density_coREST_hdac1.txt"
 
 def return_major_cluster():
 	file = "./model_analysis/summary_hdbscan_clustering.dat"
@@ -83,7 +83,7 @@ subprocess.call([
 	f"{imp_path}",
 	"python",
 	f"{sampcon_path}",
-	"-n", "sin3a",
+	"-n", "coREST",
 	"-m", "cpu_omp",
 	"-c", "4",
 	"-d", f"{density_file}",
@@ -106,7 +106,7 @@ os.mkdir( xl_viol_path )
 os.rename( "get_xl_viol_validation_set.py", f"{xl_viol_path}/get_xl_viol_validation_set.py" )
 os.chdir( xl_viol_path )
 
-XLs_path = "../../Data/XL/Sin3A_Mapped_XLs_HDAC1.csv"
+XLs_path = "../../Data/XL/coREST_Mapped_XLs_HDAC1.csv"
 XL_cutoff = 35
 os.system(
 	f"{imp_path} python get_xl_viol_validation_set.py \
@@ -134,17 +134,19 @@ os.system(
 # 	"-t", f"{XL_cutoff}"
 # 	])
 
+# exit()
 
 ############# Contact Maps ##############
 ##-------------------------------------##
 print("\n<-----------Creating Contact maps----------->")
 cmap_path = "./Contact_Maps"
-os.mkdir( cmap_path )
+if not os.path.exists( cmap_path ):
+	os.mkdir( cmap_path )
 os.rename( "./contact_maps_all_pairs_surface.py", f"{cmap_path}/contact_maps_all_pairs_surface.py" )
 os.chdir( cmap_path )
 
-protein1 = ["HDAC1.0", "SAP30.0", "SUDS3.0", "SIN3A.0"] 
-protein2 = ["HDAC1.0", "SAP30.0", "SUDS3.0", "SIN3A.0"] 
+protein1 = ["HDAC1.0", "RCOR1.0"] 
+protein2 = ["RCOR1.0", "KDM1A.0"] 
 
 prots = []
 directory = []
@@ -160,7 +162,7 @@ for index1 in range(len(protein1)):
 		else:
 			prots.append(f"{prot1},{prot2}")
 
-prots.append( "RCOR1.0-RCOR1.0" )
+prots.append( "RCOR1.0,RCOR1.0" )
 
 print( f"Contact maps will be created for the following protein pairs -- \n{prots}" )
 print( f"No. of Contact maps created = {len( prots )}" )
@@ -180,15 +182,15 @@ for prot in prots:
 ################ PrISM ##################
 ##-------------------------------------##
 print("\n<-----------Precision Analysis: PrISM----------->")
-prism_path = "../prism"
-prism_script = "/home/kartik/PrISM/prism/src/main.py"
+prism_path = "./prism"
+prism_script = "/home/kartik/Documents/PrISM/prism/src/main.py"
 os.mkdir( prism_path )
 os.chdir( prism_path )
 
 subprocess.call( [
 	f"{imp_path}",
-	"python", "{prism_script}",
-	"--input", "../cluster.0.prism.npz" 
+	"python", f"{prism_script}",
+	"--input", "../cluster.0.prism.npz", 
 	"--input_type", "npz",
 	"--output", "output",
 	"--voxel_size", "2",
@@ -200,10 +202,10 @@ subprocess.call( [
 	"--resolution", "1"
 	] )
 
-prism_colour_script = "/home/kartik/PrISM/prism/src/color_precision.py"
+prism_colour_script = "/home/kartik/Documents/PrISM/prism/src/color_precision.py"
 subprocess.call( 
 	[f"{imp_path}",
-	"python", "{prism_colour_script}",
+	"python", f"{prism_colour_script}",
 	"--resolution", "1",
 	"--annotations_file", "./output/annotations_cl2.txt",
 	"--input", "../cluster.0/cluster_center_model.rmf3",
@@ -214,3 +216,4 @@ os.rename( "./patch_colored_cluster_center_model.rmf3", "./output/patch_colored_
 
 print( "Alas, the journey comes to an end...\n" )
 print( "May the Force be with you..." )
+

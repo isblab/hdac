@@ -5,7 +5,7 @@
 
 # Multi-complex Integrative Structure Determination of the HDAC1/2 Interactome
 
-This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryoEm maps, X-ray crystallography, and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/entry/Q9H967). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
+This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryoEM maps, X-ray crystallography, homology modeling using [Modeller](https://salilab.org/modeller/), and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
 
 These integrative structures will be deposited in the PDB-Dev database with accession codes ***AddPDBdev Ids***
 
@@ -15,8 +15,8 @@ These integrative structures will be deposited in the PDB-Dev database with acce
 ## Directory structure
 1. [input](input/) : contains the subdirectories for the input data used for modeling all the corepressor complexes.
 2. [scripts](scripts/) : contains all the scripts used for pre-processing, modeling and analysis of the models.
-3. [results](results/) : contains the models and the localization probability densities of the top cluster of the corepressor complexes .
-4. [test](test/) : scripts for testing the sampling
+3. [results](results/) : contains the models and the localization probability densities of the top cluster of the corepressor complexes.
+4. [test](test/) : scripts for testing the sampling.
 
 
 ## Protocol
