@@ -72,7 +72,7 @@ A `density_{}.txt` (Nurd, corest, Sin3a) file was created. This file contains th
       
 2. Create contact maps for the component proteins in the complex using `contact_maps_all_pairs_surface.py` script. The proteins to be considered are specified as lists `protein1` and `protein2`.
 
-3. Obtain domainwise precision using PrISM [PrISM](https://doi.org/10.1093/bioinformatics/btac400).
+3. Obtain domainwise precision using [PrISM](https://doi.org/10.1093/bioinformatics/btac400).
 
 
 ### Results
