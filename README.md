@@ -78,7 +78,7 @@ A `density_{}.txt` (Nurd, corest, Sin3a) file was created. This file contains th
 ### Results
 
 For the simulations, the [results](results/) directory consists of a subdirectory for each complex comprising of -
-* `Contact_maps` : Directory containing of the contact map for the component proteins of the complex.
+* `contact_maps` : Directory containing of the contact map for the component proteins of the complex.
 * `cluster.0` : Directory containing sampcon output for the largest cluster.
 * `prism` : Directory containing the PrISM output.
 * `xl_violations` : Directory containing the logs for crosslink violations.
