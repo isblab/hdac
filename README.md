@@ -9,7 +9,7 @@ This repository is for the integrative models of the HDAC1 corepressor complexes
 
 These integrative structures will be deposited in the PDB-Dev database with accession codes ***AddPDBdev Ids***
 
-![main_fig](F1.png)
+![main_fig](main_figure.png)
 
 
 ## Directory structure
