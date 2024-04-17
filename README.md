@@ -5,7 +5,7 @@
 
 # Multi-complex Integrative Structure Determination of the HDAC1/2 Interactome
 
-This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryoEM maps, X-ray crystallography, homology modeling using [Modeller](https://salilab.org/modeller/), and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
+This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryo-EM maps, X-ray crystallography, homology modeling using [Modeller](https://salilab.org/modeller/), and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
 
 These integrative structures will be deposited in the PDB-Dev database with accession codes ***AddPDBdev Ids***
 
@@ -20,8 +20,8 @@ These integrative structures will be deposited in the PDB-Dev database with acce
 
 
 ## Protocol
-### Preprocessing the crosslinks
-1. In case of strucrures predicted by AlphaFold2, only regions of high confidence (>70 pLDDT and <5 PAE) were used. Following scripts extracts regions of high confidence:  
+### Preprocessing 
+1. In case of structures predicted by AlphaFold2, only regions of high confidence (>70 pLDDT and <5 PAE) were used. Following scripts extracts regions of high confidence:  
     ```
     python get_high_confidence_region_from_AF2.py af2_struct.cif af2_struct.json
     ```
@@ -55,17 +55,18 @@ python end_to_end_analysis.py
 ```
 
 The above script does the following -
-#### 1. Getting the good scoring models
-  Good scoring models were selected using `pmi_analysis` (Please refer to [pmi_analysis tutorial](https://github.com/salilab/PMI_analysis) for more detailed explaination) along with our `variable_filter_v1.py` script.  
+#### 1. Getting the good-scoring models
+  Good-scoring models were selected using `pmi_analysis` (Please refer to [pmi_analysis tutorial](https://github.com/salilab/PMI_analysis) for more detailed explaination) along with our `variable_filter_v1.py` script.  
+  
   Following are the scripts used:
   1. `run_analysis_trajectories.py`  
       
-  2. `variable_filter_v1.py` on the major cluster if the no. of models exceed 30000.   
+  2. `variable_filter_v1.py` on the major cluster if the number of models exceeds 30000.   
 
-  3. The selected good scoring models were then extracted using `run_extract_models.py`.:   
+  3. The selected good-scoring models were then extracted using `run_extract_models.py`.:   
       
 #### 2. Running the sampling exhaustiveness tests (Sampcon)
-A `density_{}.txt` (Nurd, corest, Sin3a) file was created. This file contains the details of the domains to be split for plotting the localisation probability densities. Finally, sampling exhaustiveness tests were performed using `imp-sampcon`. 
+A `density_{}.txt` (Nurd, corest, Sin3a) file was created. This file contains the details of the domains to be split for visualizing the localisation probability densities. Finally, sampling exhaustiveness tests were performed using `imp-sampcon`. 
 
 #### 3. Analysing the major cluster
 1. Compute crosslink violations using `get_xl_viol_validation_set.py` script.   
@@ -74,12 +75,11 @@ A `density_{}.txt` (Nurd, corest, Sin3a) file was created. This file contains th
 
 3. Obtain domainwise precision using [PrISM](https://doi.org/10.1093/bioinformatics/btac400).
 
-
 ### Results
 
 For the simulations, the [results](results/) directory consists of a subdirectory for each complex comprising of -
 * `contact_maps` : Directory containing of the contact map for the component proteins of the complex.
-* `cluster.0` : Directory containing sampcon output for the largest cluster.
+* `models_and_densities` : Directory containing sampcon output for the largest cluster.
 * `prism` : Directory containing the PrISM output.
 * `xl_violations` : Directory containing the logs for crosslink violations.
 
