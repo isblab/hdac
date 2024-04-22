@@ -32,7 +32,7 @@ runID = sys.argv[2]   # Specify the number of runs
 run_output_dir = "Output_" + str(runID)
 
 if runType == "test":
-    num_frames = 500
+    num_frames = 10
 elif runType == "prod":
     num_frames = 30000
 
@@ -41,20 +41,20 @@ max_shuffle_set2 = 50
 rex_max_temp = 2.5
 
 # Identify data files
-xls_data = "../Data/XL/Mapped_XLs_HDAC1.csv"
+xls_data = "../../../input/NuRD/XL/Mapped_XLs_HDAC1.csv"
 
 # Path for the GMM file.
-gmm_data = "../Data/GMMs/EMD_22895.mrc.gmm.15.txt"
-gmm_dir = "../Data/GMMs/"
-pdb_dir = "../Data/PDB/"
-fasta_dir = "../Data/Fasta/"
+gmm_data = "../../../input/NuRD/GMMs/EMD_22895.mrc.gmm.15.txt"
+gmm_dir = "../../../input/NuRD/GMMs/"
+pdb_dir = "../../../input/NuRD/PDB/"
+fasta_dir = "../../../input/NuRD/Fasta/"
 
 # Restraint weights
 xl_weight = 10
 em_weight = 80
 
 # Topology File
-topology_file = "../Data/topology_HDAC1.txt"
+topology_file = "../../../input/NuRD/topology_HDAC1.txt"
 
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

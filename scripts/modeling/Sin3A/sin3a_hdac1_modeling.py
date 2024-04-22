@@ -33,7 +33,7 @@ runID = sys.argv[2]   # Specify the number of runs
 run_output_dir = "Output_" + str(runID)
 
 if runType == "test":
-    num_frames = 1000
+    num_frames = 10
 elif runType == "prod":
     num_frames = 30000
 
@@ -41,9 +41,9 @@ max_shuffle = 50
 rex_max_temp = 5
 
 # Identify data files
-xls_data = "../Data/XL/Sin3A_Mapped_XLs_HDAC1.csv"
-pdb_dir = "../Data/PDB/"
-fasta_dir = "../Data/Fasta/"
+xls_data = "../../../input/Sin3A/XL/Sin3A_Mapped_XLs_HDAC1.csv"
+pdb_dir = "../../../input/Sin3A/PDB/"
+fasta_dir = "../../../input/Sin3A/Fasta/"
 
 # Restraint weights
 xl_weight = 20
@@ -52,7 +52,7 @@ mpdbr_res = 10
 # em_weight = 60
 
 # Topology File
-topology_file = "../Data/topology_Sin3A_HDAC1.txt"
+topology_file = "../../../input/Sin3A/topology_Sin3A_HDAC1.txt"
 
 
 # FUNCTIONS AND WRAPPERS -----------------------------------------------

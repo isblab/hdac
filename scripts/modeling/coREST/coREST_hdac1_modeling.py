@@ -32,7 +32,7 @@ runID = sys.argv[2]   # Specify the number of runs
 run_output_dir = "Output_" + str(runID)
 
 if runType == "test":
-    num_frames = 2000
+    num_frames = 10
 elif runType == "prod":
     num_frames = 20000
 
@@ -40,19 +40,19 @@ max_shuffle = 20
 rex_max_temp = 2.5
 
 # Identify data files
-xls_data = "../Data/XL/coREST_Mapped_XLs_HDAC1.csv"
+xls_data = "../../../input/coREST/XL/coREST_Mapped_XLs_HDAC1.csv"
 # Path for the GMM file.
-gmm_data = "../Data/GMMs/emd_10627.mrc.gmm.15.txt"
-gmm_dir = "../Data/GMMs/"
-pdb_dir = "../Data/PDB/"
-fasta_dir = "../Data/Fasta/"
+gmm_data = "../../../input/coREST/GMMs/emd_10627.mrc.gmm.15.txt"
+gmm_dir = "../../../input/coREST/GMMs/"
+pdb_dir = "../../../input/coREST/PDB/"
+fasta_dir = "../../../input/coREST/Fasta/"
 
 # Restraint weights
 xl_weight = 20
 em_weight = 60
 
 # Topology File
-topology_file = "../Data/topology_coREST_HDAC1.txt"
+topology_file = "../../../input/coREST/topology_coREST_HDAC1.txt"
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Here is where the work begins
