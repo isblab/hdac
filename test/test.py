@@ -12,21 +12,23 @@ class Tests( unittest.TestCase ):
     def test_sims( self ):
         """Test simulations for HDAC corepressor complexes (NuRD, coREST, SIn3A)"""
         for cplex in ["NuRD", "coREST", "Sin3A"]:
-            os.chdir( f"{TOPDIR}/scripts/modeling/{cplex}" )
+            # os.chdir( f"{TOPDIR}/scripts/modeling/{cplex}" )
+            os.chdir( f"../scripts/modeling/{cplex}/" )
 
+            input_dir = f"../../../input/{cplex}/"
             if cplex == "NuRD":
                 script = "hdac1_modeling.py"
                 # Need to unzip the compressed mrc file.
-                if not os.path.exists( f"{TOPDIR}/input/{cplex}/GMMs/EMD_22895.mrc.gmm.15.mrc" ):
-                    subprocess.call( ["unzip", f"{TOPDIR}/input/{cplex}/GMMs/EMD_22895.mrc.gmm.15.zip",
-                                        "-d", f"{TOPDIR}/input/{cplex}/GMMs/"] )
+                if not os.path.exists( f"{input_dir}/GMMs/EMD_22895.mrc.gmm.15.mrc" ):
+                    subprocess.call( ["unzip", f"{input_dir}/GMMs/EMD_22895.mrc.gmm.15.zip",
+                                        "-d", f"{input_dir}/GMMs/"] )
             
             elif cplex == "coREST":
                 script = "coREST_hdac1_modeling.py"
                 # Need to unzip the compressed mrc file.
-                if not os.path.exists( f"{TOPDIR}/input/{cplex}/GMMs/emd_10627.mrc.gmm.15.mrc" ):
-                    subprocess.call( ["unzip", f"{TOPDIR}/input/{cplex}/GMMs/emd_10627.mrc.gmm.15.zip",
-                                    "-d", f"{TOPDIR}/input/{cplex}/GMMs/"] )
+                if not os.path.exists( f"{input_dir}/GMMs/emd_10627.mrc.gmm.15.mrc" ):
+                    subprocess.call( ["unzip", f"{input_dir}/GMMs/emd_10627.mrc.gmm.15.zip",
+                                    "-d", f"{input_dir}/GMMs/"] )
             
             elif cplex == "Sin3A":
                 script = "sin3a_hdac1_modeling.py"
@@ -56,7 +58,7 @@ class Tests( unittest.TestCase ):
                 print( "Removing NuRD mrc file...\n" )
                 subprocess.call( ["rm", "-r",
                                     "Output_test",
-                                    f"{TOPDIR}/input/{cplex}/GMMs/EMD_22895.mrc.gmm.15.mrc",
+                                    f"{input_dir}/GMMs/EMD_22895.mrc.gmm.15.mrc",
                                     "excluded.None.xl.db", 
                                     "included.None.xl.db", 
                                     "missing.None.xl.db"] )
@@ -64,7 +66,7 @@ class Tests( unittest.TestCase ):
             elif cplex == "coREST":
                 subprocess.call( ["rm", "-r",
                                     "Output_test",
-                                    f"{TOPDIR}/input/{cplex}/GMMs/emd_10627.mrc.gmm.15.mrc",
+                                    f"{input_dir}/GMMs/emd_10627.mrc.gmm.15.mrc",
                                     "excluded.None.xl.db", 
                                     "included.None.xl.db", 
                                     "missing.None.xl.db"] )
@@ -75,7 +77,7 @@ class Tests( unittest.TestCase ):
                                     "included.None.xl.db", 
                                     "missing.None.xl.db"] )
             # back to base.
-            os.chdir( f"{TOPDIR}/test" )
+            os.chdir( f"../../../test" )
             print( "\n------------------------------------------------\n" )
 
 
