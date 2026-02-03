@@ -1,7 +1,7 @@
 
 [Add PubMed link]: [![PubMed]
 
-[Zenodo](https://zenodo.org/doi/10.5281/zenodo.11056108)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11056108.svg)](https://zenodo.org/doi/10.5281/zenodo.11056108)
 
 # Multi-complex Integrative Structure Determination of the HDAC1/2 Interactome
 
