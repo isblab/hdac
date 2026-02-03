@@ -60,17 +60,30 @@ print("\n<-----------Model Extraction----------->")
 if int( cluster[1] ) >= 30000:	
 	print(">30000 models....\n using Variable filter \n")
 	var_filter_path = "./Variable_filter"
-	os.mkdir( var_filter_path )
+	os.makedirs( var_filter_path, exist_ok = True )
 
-	subprocess.call( ["python", "variable_filter_v1.py", "-c", f"{cluster[0]}"] )
-	subprocess.call( [f"{imp_path}", "python", "run_extract_models.py", f"{modeling_dir_path}", f"{output_dir}", f"{cluster[0]}", "True"] )
+	subprocess.call(
+		[
+			"python", "variable_filter.py",
+			"-c", f"{cluster[0]}",
+			"-g", "./model_analysis/",
+			"-o", f"{var_filter_path}",
+			"--restraint_handles", "XLs_sum", "MPDBR_sum"
+		]
+		)
+	subprocess.call(
+		[
+			f"{imp_path}", "python", "run_extract_models.py",
+			f"{modeling_dir_path}", f"{output_dir}", f"{cluster[0]}", "True"
+			]
+		)
+	os.rename(
+		f"{var_filter_path}/good_scoring_models_A_cluster{cluster[0]}_detailed.csv",
+		f"./model_analysis/good_scoring_models_A_cluster{cluster[0]}_detailed.csv" )
+	os.rename(
+		f"{var_filter_path}/good_scoring_models_B_cluster{cluster[0]}_detailed.csv",
+		f"./model_analysis/good_scoring_models_B_cluster{cluster[0]}_detailed.csv" )
 
-	os.rename( "ignore.KS_Test.txt", f"{var_filter_path}/ignore.KS_Test.txt" )
-	os.rename( "ignore.Score_Hist_A.txt", f"{var_filter_path}/ignore.Score_Hist_A.txt" )
-	os.rename( "ignore.Score_Hist_B.txt", f"{var_filter_path}/ignore.Score_Hist_B.txt" )
-	os.rename( "var_filt_out.log", f"{var_filter_path}/var_filt_out.log" )
-	os.rename( "var_filt_out.png", f"{var_filter_path}/var_filt_out.png" )
-	os.rename( "variable_filter_v1.py", f"{var_filter_path}/variable_filter_v1.py" )
 else:
 	subprocess.call( [f"{imp_path}", "python", "run_extract_models.py", f"{modeling_dir_path}", f"{output_dir}", f"{cluster[0]}", "False"] )
 
@@ -79,13 +92,14 @@ else:
 ##-------------------------------------##
 print("\n<-----------Sampcon----------->")
 sampcon_path = "/home/kartik/imp-clean/imp/modules/sampcon/pyext/src/exhaust.py"
+
 subprocess.call([
 	f"{imp_path}",
 	"python",
 	f"{sampcon_path}",
 	"-n", "sin3a",
 	"-m", "cpu_omp",
-	"-c", "10",
+	"-c", "4",
 	"-d", f"{density_file}",
 	"-gp",
 	"-g", "5",
@@ -102,7 +116,7 @@ subprocess.call([
 ##-------------------------------------##
 print("\n<-----------Fit to input XLs----------->")
 xl_viol_path = "./XL_Violations"
-os.mkdir( xl_viol_path )
+os.makedirs( xl_viol_path, exist_ok = True )
 os.rename( "get_xl_viol_validation_set.py", f"{xl_viol_path}/get_xl_viol_validation_set.py" )
 os.chdir( xl_viol_path )
 
@@ -120,33 +134,34 @@ os.system(
 	-t {XL_cutoff}"
 	)
 
-# subprocess.call([
-# 	f"{imp_path}",
-# 	"python",
-# 	"get_xl_viol_validation_set.py",
-# 	"-ia", "../cluster.0.sample_A.txt",
-# 	"-ib", "../cluster.0.sample_B.txt",
-# 	"-ra", f"../model_analysis/A_models_clust{cluster[0]}.rmf3",
-# 	"-rb", f"../model_analysis/B_models_clust{cluster[0]}.rmf3",
-# 	"-c", "../cluster.0/cluster_center_model.rmf3",
-# 	"-ta", f"../model_analysis/A_models_clust{cluster[0]}.txt",
-# 	"-x", f"{XLs_path}",
-# 	"-t", f"{XL_cutoff}"
-# 	])
+subprocess.call([
+	f"{imp_path}",
+	"python",
+	"get_xl_viol_validation_set.py",
+	"-ia", "../cluster.0.sample_A.txt",
+	"-ib", "../cluster.0.sample_B.txt",
+	"-ra", f"../model_analysis/A_models_clust{cluster[0]}.rmf3",
+	"-rb", f"../model_analysis/B_models_clust{cluster[0]}.rmf3",
+	"-c", "../cluster.0/cluster_center_model.rmf3",
+	"-ta", f"../model_analysis/A_models_clust{cluster[0]}.txt",
+	"-x", f"{XLs_path}",
+	"-t", f"{XL_cutoff}"
+	])
 
 
 ############# Contact Maps ##############
 ##-------------------------------------##
 print("\n<-----------Creating Contact maps----------->")
-cmap_path = "../contact_maps"
-os.mkdir( cmap_path )
-os.rename( "../contact_maps_all_pairs_surface.py", f"{cmap_path}/contact_maps_all_pairs_surface.py" )
+cmap_path = "./Contact_Maps"
+os.makedirs( cmap_path, exist_ok = True )
+os.rename( "./contact_maps_all_pairs_surface.py", f"{cmap_path}/contact_maps_all_pairs_surface.py" )
 os.chdir( cmap_path )
 
 protein1 = ["HDAC1.0", "SAP30.0", "SUDS3.0", "SIN3A.0"] 
 protein2 = ["HDAC1.0", "SAP30.0", "SUDS3.0", "SIN3A.0"] 
 
 prots = []
+directory = []
 
 for index1 in range(len(protein1)):
 	for index2 in range(len(protein2)):
@@ -158,10 +173,15 @@ for index1 in range(len(protein1)):
 			continue
 		else:
 			prots.append(f"{prot1},{prot2}")
-
+			# Create folders for a protein pairs.
+			name = prot1.split( "." )[0] + "-" + prot2.split( "." )[0]
+			if name not in directory:
+				print(name)
+				directory.append( name )
 
 print( f"Contact maps will be created for the following protein pairs -- \n{prots}" )
 print( f"No. of Contact maps created = {len( prots )}" )
+
 for prot in prots:
 	os.system(
 		f"~/imp-clean/build/setup_environment.sh \
@@ -175,24 +195,30 @@ for prot in prots:
 		-p {prot} &" 
 		)
 
+# for dir_ in directory:
+# 	subprocess.call( ["mkdir", f"{dir_}"] )
+# 	p1 = dir_.split( "-" )[0]
+# 	subprocess.call( ["mv", f"{p1}.*", f"{dir_}"] )
+
+
 ################ PrISM ##################
 ##-------------------------------------##
 print("\n<-----------Precision Analysis: PrISM----------->")
-prism_path = "../prism"
+prism_path = "./prism"
 prism_script = "/home/kartik/PrISM/prism/src/main.py"
-os.mkdir( prism_path )
+os.makedirs( prism_path, exist_ok = True )
 os.chdir( prism_path )
 
 subprocess.call( [
 	f"{imp_path}",
-	"python", "{prism_script}",
-	"--input", "../cluster.0.prism.npz" 
+	"python", f"{prism_script}",
+	"--input", "../cluster.0.prism.npz", 
 	"--input_type", "npz",
 	"--output", "output",
 	"--voxel_size", "2",
 	"--return_spread",
 	"--classes", "2",
-	"--cores", "20",
+	"--cores", "50",
 	"--models", "1.0",
 	"--n_breaks", "50",
 	"--resolution", "1"
@@ -201,7 +227,7 @@ subprocess.call( [
 prism_colour_script = "/home/kartik/PrISM/prism/src/color_precision.py"
 subprocess.call( 
 	[f"{imp_path}",
-	"python", "{prism_colour_script}",
+	"python", f"{prism_colour_script}",
 	"--resolution", "1",
 	"--annotations_file", "./output/annotations_cl2.txt",
 	"--input", "../cluster.0/cluster_center_model.rmf3",
