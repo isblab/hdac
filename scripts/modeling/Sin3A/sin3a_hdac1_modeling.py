@@ -21,6 +21,8 @@ import IMP.pmi.restraints.crosslinking
 import IMP.pmi.restraints.em
 import IMP.pmi.dof
 import IMP.atom
+import ihm
+import ihm.cross_linkers
 #import IMP.saxs
 import IMP.desmosome
 import numpy as np
@@ -33,26 +35,26 @@ runID = sys.argv[2]   # Specify the number of runs
 run_output_dir = "Output_" + str(runID)
 
 if runType == "test":
-    num_frames = 10
+    num_frames = 1000
 elif runType == "prod":
     num_frames = 30000
 
 max_shuffle = 50
-rex_max_temp = 5
+rex_max_temp = 3
 
 # Identify data files
-xls_data = "../../../input/Sin3A/XL/Sin3A_Mapped_XLs_HDAC1.csv"
-pdb_dir = "../../../input/Sin3A/PDB/"
-fasta_dir = "../../../input/Sin3A/Fasta/"
+xls_data = "../Data/XL/Sin3A_Mapped_XLs_HDAC1.csv"
+pdb_dir = "../Data/PDB/"
+fasta_dir = "../Data/Fasta/"
 
 # Restraint weights
 xl_weight = 20
-mpdbr_weight = 10
+mpdbr_weight = 100
 mpdbr_res = 10
 # em_weight = 60
 
 # Topology File
-topology_file = "../../../input/Sin3A/topology_Sin3A_HDAC1.txt"
+topology_file = "../Data/topology_Sin3A_HDAC1.txt"
 
 
 # FUNCTIONS AND WRAPPERS -----------------------------------------------
@@ -94,11 +96,28 @@ bs.add_state(t)
 
 # executing the macro will return the root hierarchy and degrees of freedom (dof) objects
 root_hier, dof = bs.execute_macro(max_rb_trans = 1,
-                                  max_rb_rot = 0.2,
-                                  max_bead_trans = 4.5,
-                                  max_srb_trans = 1,
-                                  max_srb_rot = 0.05)
+                                  max_rb_rot = 0.1,
+                                  max_bead_trans = 4.25,
+                                  max_srb_trans = 0.5,
+                                  max_srb_rot = 0.01)
 
+set1 = []
+for prot in ["HDAC1", "SIN3A", "SAP30"]:
+    set1 += IMP.atom.Selection(root_hier, molecule=prot, copy_index=0).get_selected_particles()
+set1 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(1,88), copy_index=0).get_selected_particles()
+set1 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(173,328), copy_index=0).get_selected_particles()
+
+set2 = []
+for prot in ["HDAC1", "SIN3A", "SAP30"]:
+    set1 += IMP.atom.Selection(root_hier, molecule=prot, copy_index=0).get_selected_particles()
+set2 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(1,88), copy_index=0).get_selected_particles()
+set2 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(173,328), copy_index=0).get_selected_particles()
+
+set3 = []
+set3 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(88,172), copy_index=0).get_selected_particles()
+set3 += IMP.atom.Selection(root_hier, molecule="SUDS3", residue_indexes=range(88,172), copy_index=1).get_selected_particles()
+
+fixed_set3_beads,fixed_set3 = dof.disable_movers( set3, [IMP.core.RigidBodyMover, IMP.pmi.TransformMover] )
 
 # It's useful to have a list of the molecules.
 molecules = t.get_components()
@@ -211,7 +230,9 @@ xls = IMP.pmi.restraints.crosslinking.CrossLinkingMassSpectrometryRestraint(
                 resolution = 1,           # The resolution at which to evaluate the crosslink
                 slope = 0.0001,           # This adds a linear term to the scoring function
                 label = "xl_Sin3A_hdac1",                        #   to bias crosslinks towards each other
-                weight = xl_weight)       # Scaling factor for the restraint score.
+                weight = xl_weight,       # Scaling factor for the restraint score.
+				linker=ihm.cross_linkers.dsso
+)
 
 output_objects.append(xls)
 
@@ -221,38 +242,39 @@ print("Cross-linking restraint applied")
 # -------------------------------------------------
 # %%%%% MIN PAIR DISTANCE BINDING RESTRAINT (MPDBR)
 # SAP30-HDAC1 interacting residues.
+for cp in [0, 1]:
+    plist1 = []
+    for res1 in [84, 86, 88, 110]:
+        selection_tuple = (res1, res1, 'SAP30', cp, None)
+        p1 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
+        if p1 not in plist1:
+            plist1 = np.append( plist1, p1 )
 
-plist1 = []
-for res1 in [84, 86, 88, 110]:
-    selection_tuple = (res1, res1, 'SAP30', 0, None)
-    p1 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
-    if p1 not in plist1:
-        plist1 = np.append( plist1, p1 )
+    plist2 = []
+    for res2 in [31, 33, 270, 306]:
+        selection_tuple = (res2, res2, 'HDAC1', cp, None)
+        p2 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
+        if p2 not in plist2:
+            plist2 = np.append( plist2, p2 )
 
-plist2 = []
-for res2 in [31, 33, 270, 306]:
-    selection_tuple = (res2, res2, 'HDAC1', 0, None)
-    p2 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
-    if p2 not in plist2:
-        plist2 = np.append( plist2, p2 )
-
-mpdbr = MinimumPairDistanceBindingRestraint(mdl, plist1, plist2, x0 = 0, kappa = 1, label = f"SAP30.0-HDAC1.0",
-                                                      weight = mpdbr_weight)
-output_objects.append( mpdbr )
-print( f"Min Pair Distance Binding Restraint Applied --> SAP30.0-HDAC1.0" )
+    mpdbr = MinimumPairDistanceBindingRestraint(mdl, plist1, plist2, x0 = 0, kappa = 1, label = f"SAP30.{cp}-HDAC1.{cp}",
+                                                          weight = mpdbr_weight)
+    output_objects.append( mpdbr )
+print( f"Min Pair Distance Binding Restraint Applied --> SAP30.{cp}-HDAC1.{cp}" )
 
 
 # SIN3A-HDAC1 interacting residues.
-selection_tuple = ( 687, 829, 'SIN3A', 0, None )
-plist1 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
+for cp in [0, 1]:
+    selection_tuple = ( 687, 829, 'SIN3A', cp, None )
+    plist1 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
 
-selection_tuple = ( 8, 376, 'HDAC1', 0, None )
-plist2 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
+    selection_tuple = ( 8, 376, 'HDAC1', cp, None )
+    plist2 = IMP.pmi.tools.select_by_tuple_2(root_hier, selection_tuple, mpdbr_res)
 
-mpdbr = MinimumPairDistanceBindingRestraint(mdl, plist1, plist2, x0 = 0, kappa = 1, label = f"SIN3A.0-HDAC1.0",
-                                                      weight = mpdbr_weight)
-output_objects.append( mpdbr )
-print( f"Min Pair Distance Binding Restraint Applied --> SIN3A.0-HDAC1.0" )
+    mpdbr = MinimumPairDistanceBindingRestraint(mdl, plist1, plist2, x0 = 0, kappa = 1, label = f"SIN3A.{cp}-HDAC1.{cp}",
+                                                          weight = mpdbr_weight)
+    output_objects.append( mpdbr )
+print( f"Min Pair Distance Binding Restraint Applied --> SIN3A.{cp}-HDAC1.{cp}" )
 
 
 #####################################################
@@ -265,14 +287,23 @@ print("Number of sampling frames: " + str(num_frames))
 # First shuffle all particles to randomize the starting point of the
 # system. For larger systems, you may want to increase max_translation
 
-IMP.pmi.tools.shuffle_configuration(root_hier,
-                                    max_translation = max_shuffle)
+IMP.pmi.tools.shuffle_configuration(set1,
+                                    max_translation = max_shuffle,
+                                    excluded_rigid_bodies = [set2,set3],
+                                    hierarchies_included_in_collision = [set2,set3])
+
+
+IMP.pmi.tools.shuffle_configuration(set2,
+                                    max_translation = max_shuffle,
+                                    excluded_rigid_bodies = [set1,set3],
+                                    hierarchies_included_in_collision = [set1,set3])
 
 # Shuffling randomizes the bead positions. It's good to
 # allow these to optimize first to relax large connectivity
 # restraint scores.  100-500 steps is generally sufficient.
 dof.optimize_flexible_beads(1500)
 
+# IMP.pmi.dof.DegreesOfFreedom.enable_all_movers( dof )
 
 # Now, add all of the other restraints to the scoring function to start sampling
 for o in output_objects:
@@ -281,9 +312,9 @@ for o in output_objects:
 print( "Replica Exchange Maximum Temperature : " + str( rex_max_temp ) )
 
 # Run replica exchange Monte Carlo sampling
-rex=IMP.pmi.macros.ReplicaExchange0(mdl,
+rex=IMP.pmi.macros.ReplicaExchange(mdl,
         root_hier = root_hier,                    # pass the root hierarchy
-        crosslink_restraints = xls,
+        # crosslink_restraints = xls,
         # This allows viewing the crosslinks in Chimera. Also, there is not inter-protein ADH crosslink available. Hence it is not mentioned in this list
         monte_carlo_temperature = 1.0,
         replica_exchange_minimum_temperature = 1.0,
