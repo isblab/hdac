@@ -19,17 +19,17 @@ prots = [
 
 # Set visualization thresholds
 threshold = {
-        'SIN3A_PAH3': 0.0151,               # 10%
-        'SIN3A_HID': 0.0295,                # 10%
-        'SAP30_N-term': 0.01095,            # 28%
-        'SAP30_ZFD': 0.0338,                # 10%
-        'SAP30_SID': 0.02535,               # 15%
-        'SUDS3_N-term': 0.002912,           # 28%
-        'SUDS3_dimerization': 0.012795,     # 15%
-        'SUDS3_SID': 0.0107,                # 10%
-        'SUDS3_C-term': 0.009345,           # 15%
-        'HDAC1_1-376': 0.10455,             # 15%
-        'HDAC1_C-term_377-482': 0.025704  } # 28%
+        'SIN3A_PAH3': 0.0134,               # 10%
+        'SIN3A_HID': 0.0478,                # 20%
+        'SAP30_N-term': 0.00694,            # 20%
+        'SAP30_ZFD': 0.0167,                # 10%
+        'SAP30_SID': 0.0136,                # 10%
+        'SUDS3_N-term': 0.006608,           # 28%
+        'SUDS3_dimerization': 0.00775,      # 10%
+        'SUDS3_SID': 0.0112,                # 10%
+        'SUDS3_C-term': 0.0111,             # 10%
+        'HDAC1_1-376': 0.0583,              # 10%
+        'HDAC1_C-term_377-482': 0.012712  } # 28%
 
 # Color of each protein/domain
 col = {
