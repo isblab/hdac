@@ -7,7 +7,7 @@
 
 This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryo-EM maps, X-ray crystallography, homology modeling using [Modeller](https://salilab.org/modeller/), and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
 
-These integrative structures will be deposited in the PDB-Dev database with accession codes ***AddPDBdev Ids***
+These integrative structures will be deposited in the PDB-Dev database with accession codes ***TBD***
 
 ![main_fig](main_figure.png)
 
@@ -85,7 +85,7 @@ For the simulations, the [results](results/) directory consists of a subdirector
 
 
 ## Information
-**Author(s):** Rosalyn C. Zimmermann*, Kartik Majila*, Cassandra Kempf*, Charles A.S. Banks, Mark K. Adams, Sayem Miah, Janet L. Thornton, Mihaela Sardiu, Laurence Florens, Shruthi Viswanath, Michael P. Washburn  
+**Author(s):** Jules Nde*, Kartik Majila*, Rosalyn C. Zimmermann, Cassandra Kempf, Ying Zhang, Joseph Cesare, Janet L. Thornton, Jerry L. Workman, Laurence Florens, Shruthi Viswanath, Michael P. Washburn  
 **Date**: September 12th, 2023  
 **License:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
