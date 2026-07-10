@@ -93,5 +93,5 @@ International License.
 **Last known good IMP version:** Not tested  
 **Testable:** Yes  
 **Parallelizeable:** Yes  
-**Publications:**  
+**Publications:** Multicomplex Integrative Structural Modeling of a Human Histone Deacetylase Interactome, in revisions 
 
