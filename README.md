@@ -7,7 +7,7 @@
 
 This repository is for the integrative models of the HDAC1 corepressor complexes - NuRD, Sin3A, coREST, based on  data from chemical crosslinking, cryo-EM maps, X-ray crystallography, homology modeling using [Modeller](https://salilab.org/modeller/), and structure prediction from [Alphafold](https://www.alphafold.ebi.ac.uk/). It contains input data, scripts for data preprocessing, modeling and results including bead models and localization probability density maps. The modeling was performed using [IMP](https://integrativemodeling.org) (*Integrative Modeling Platform*). 
 
-These integrative structures will be deposited in the PDB-Dev database with accession codes ***TBD***
+These integrative structures are deposited in the [PDB-IHM](https://pdb-ihm.org/) . The accession codes are 9A8O: NuRD, 9A8P: CoREST, PA8Q: Sin3A. 
 
 ![main_fig](main_figure.png)
 
